@@ -1,8 +1,7 @@
-Data Structures in Java
-Author: chetan89
+<b>Data Structures in Java (Author: chetan89)</b>
 
 This package contains the following data structures in Java:
 
-1) <to-fill>
-2) <to-fill>
-...
+- Linked lists (singly)
+
+Known dependencies: Project Lombok (projectlombok.org)
