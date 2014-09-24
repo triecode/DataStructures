@@ -8,6 +8,9 @@ import data.structure.utils.Node;
 /**
  * LinkedList implementation
  * 
+ * Reference problems:
+ * http://cslibrary.stanford.edu/105/LinkedListProblems.pdf
+ * 
  * @author chetan89
  *
  * @param <T>
@@ -46,14 +49,19 @@ public class LinkedList<T extends Comparable<T>> implements List<T> {
      */
     public void append(T item) {
         Node<T> newTail = new Node<T>(item, null);
-        if (this.head == null) {
-            this.head = newTail;
-        } else {
-            this.tail.setNext(newTail);
-        }
-        this.tail = newTail;
+        this.append(newTail);
     }
 
+    private void append(Node<T> item) {
+        if (this.head == null) {
+            this.head = item;
+        } else {
+            this.tail.setNext(item);
+        }
+        this.tail = item;
+        
+    }
+    
     /**
      * Prepend an item to the head of the list
      */
@@ -62,6 +70,11 @@ public class LinkedList<T extends Comparable<T>> implements List<T> {
         this.head = newHead;
     }
 
+    private void prepend(Node<T> item) {
+        item.setNext(this.head);
+        this.head = item;
+    }
+    
     /**
      * Print the list data
      * For example, a list of integers from 1-9:
@@ -282,6 +295,44 @@ public class LinkedList<T extends Comparable<T>> implements List<T> {
         this.mergeSort();
     }
 
+    /**
+     * Method to sort the list using the standard
+     * insertion sort algorithm
+     */
+    public void insertionSort() {
+        // Reset head
+        Node<T> iterator = this.head;
+        this.head = null;
+
+        // Iterate over old list and insert in position
+        while(iterator != null) {
+            Node<T> next = iterator.getNext();
+            this.insertSorted(iterator);
+            iterator = next;
+        }
+    }
+    
+    private void insertSorted(Node<T> item) {
+        Node<T> iterator = this.head;
+        // If list is empty or item is smaller than head
+        if (this.head == null || this.head.compareTo(item) > 0) {
+            this.prepend(item);
+        } else {
+            // Keep iterating until we find the right spot
+            while ((iterator.getNext() != null)
+                    && (iterator.compareTo(item) < 0 && iterator.getNext().compareTo(item) < 0)) {
+                iterator = iterator.getNext();
+            }
+            // Insert the node
+            Node<T> next = iterator.getNext();
+            iterator.setNext(item);
+            item.setNext(next);
+        }
+    }
+
+    /**
+     * Method to duplicate a list
+     */
     public LinkedList<T> copyOfList() {
         if (this.head == null) return new LinkedList<T>();
         LinkedList<T> copyList = new LinkedList<T>(this.head.getData());
@@ -292,7 +343,63 @@ public class LinkedList<T extends Comparable<T>> implements List<T> {
         }
         return copyList;
     }
+
+    /**
+     * Method to get the Nth item (if exists)
+     * NOTE: Indices start from 0
+     */
+    public T getNth(int n) {
+        if (n < 0) {
+            return null;
+        }
+        Node<T> iterator = this.head;
+        for (int i = 0; i < n; i++) {
+            iterator = iterator.getNext();
+            if (iterator == null) {
+                return null;
+            }
+        }
+        return iterator.getData();
+    }
+
+    public boolean insertNth(T item, int n) {
+        if (n == 0) {
+            // Prepend to list
+            this.prepend(item);
+            return true;
+        } else if (n > 0) {
+            // Iterate to previous node
+            Node<T> iterator = this.head;
+            for (int i = 1; i < n; i++) {
+                if (iterator == null) {
+                    return false;
+                }
+                iterator = iterator.getNext();
+            }
+            // Insert node
+            Node<T> next = iterator.getNext();
+            Node<T> toInsert = new Node<T>(item, next);
+            iterator.setNext(toInsert);
+            return true;
+        } else {
+            return false;  // Bad input
+        }
+    }
     
+    /**
+     * Method to pop the head of the list
+     * @return
+     */
+    public T pop() {
+        if (this.head == null) {
+            return null;
+        } else {
+            Node<T> oldHead = this.head;
+            this.head = this.head.getNext();
+            return oldHead.getData();
+        }
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other instanceof LinkedList<?>) {

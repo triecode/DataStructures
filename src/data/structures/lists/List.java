@@ -36,6 +36,13 @@ public interface List<T extends Comparable<T>> {
     public void sortList();
 
     /**
+     * Method to get Nth element of a list
+     * @param n
+     * @return Nth element or null (if not exists)
+     */
+    public T getNth(int n);
+
+    /**
      * Method to sort a list
      */
     public List<T> copyOfList();

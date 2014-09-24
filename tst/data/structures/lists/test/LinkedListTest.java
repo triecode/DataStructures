@@ -45,6 +45,11 @@ public class LinkedListTest {
         list = new LinkedList<Integer>(listOfIntegers);
         list.mergeSort();
         Assert.assertTrue(list.equals(ascList));
+
+        // Reset list, test insertion sort
+        list = new LinkedList<Integer>(listOfIntegers);
+        list.insertionSort();
+        Assert.assertTrue(list.equals(ascList));
     }
 
     @Test
@@ -57,6 +62,46 @@ public class LinkedListTest {
         list.recReverseList();
         list.reverseList();
         Assert.assertTrue(list.equals(originalList));
+    }
+
+    @Test
+    public void testGetNth() {
+        Integer[] listOfIntegers = { 4, 5, 7, 6, 1, 2, 3, 8, 9 };
+        LinkedList<Integer> list = new LinkedList<Integer>(listOfIntegers);
+        // Test all elements of the array
+        for (int i = 0; i < listOfIntegers.length; i++) {
+            Assert.assertEquals(list.getNth(i), listOfIntegers[i]);
+        }
+        // Test non-existent element
+        Assert.assertEquals(list.getNth(listOfIntegers.length), null);
+    }
+
+    @Test
+    public void testPop() {
+        Integer[] listOfIntegers = { 4, 5, 7, 6, 1, 2, 3, 8, 9 };
+        LinkedList<Integer> list = new LinkedList<Integer>(listOfIntegers);
+        // Test all elements of the array
+        for (int i = 0; i < listOfIntegers.length; i++) {
+            Assert.assertEquals(list.pop(), listOfIntegers[i]);
+        }
+        // Test non-existent element
+        Assert.assertEquals(list.pop(), null);
+    }
+
+    @Test
+    public void testInsertNth() {
+        Integer[] listOfIntegers = { 4, 5, 7, 6, 1, 2, 3, 8, 9 };
+        LinkedList<Integer> list = new LinkedList<Integer>();
+        // Should not insert element 4 in 10th position
+        Assert.assertEquals(list.insertNth(4, 10), false);
+        // Insert all elements of the array
+        for (int i = 0; i < listOfIntegers.length; i++) {
+            Assert.assertEquals(list.insertNth(listOfIntegers[i], i), true);
+        }
+        // Verify the elements of the array
+        for (int i = 0; i < listOfIntegers.length; i++) {
+            Assert.assertEquals(list.getNth(i), listOfIntegers[i]);
+        }
     }
 
 }
