@@ -2,6 +2,6 @@
 
 This package contains the following data structures in Java:
 
-- Linked lists (singly)
+- Linked lists (singly, doubly)
 
 Known dependencies: Project Lombok (projectlombok.org)

@@ -7,7 +7,6 @@ import data.structure.utils.BNode;
 
 /**
  * Doubly LinkedList implementation
- * TODO: Optimize using prev reference
  * 
  * @author chetan89
  *
@@ -28,7 +27,7 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
         if (item == null) {
             return;
         }
-        this.head = new BNode<T>(item, null);
+        this.head = new BNode<T>(item, null, null);
         this.tail = this.head;
     }
 
@@ -46,7 +45,7 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
      * Append an item to the tail of the list
      */
     public void append(T item) {
-        BNode<T> newTail = new BNode<T>(item, null);
+        BNode<T> newTail = new BNode<T>(item, this.tail, null);
         this.append(newTail);
     }
 
@@ -55,24 +54,27 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
             this.head = item;
         } else {
             this.tail.setNext(item);
+            item.setPrev(this.tail);
         }
         this.tail = item;
-        
     }
-    
+
     /**
      * Prepend an item to the head of the list
      */
     public void prepend(T item) {
-        BNode<T> newHead = new BNode<T>(item, this.head);
+        BNode<T> newHead = new BNode<T>(item, null, this.head);
         this.head = newHead;
     }
 
     private void prepend(BNode<T> item) {
         item.setNext(this.head);
+        if (this.head != null) {
+            this.head.setPrev(item);
+        }
         this.head = item;
     }
-    
+
     /**
      * Print the list data
      * For example, a list of integers from 1-9:
@@ -95,18 +97,18 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
         // Set tail to current head
         this.tail = this.head;
 
-        // Iteratively reverse every 2 nodes starting from (null,head)
-        BNode<T> prev = null;
+        // Iteratively reverse every node starting from 'head'
         BNode<T> curr = this.head;
         while (curr != null) {
             BNode<T> next = curr.getNext();
-            curr.setNext(prev);
-            prev = curr;
+            curr.setNext(curr.getPrev());
+            curr.setPrev(next);
+            // Set the head
+            if (next == null) {
+                this.head = curr;
+            }
             curr = next;
         }
-
-        // Set the head
-        this.head = prev;
     }
 
     /**
@@ -127,6 +129,9 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
         // Base case: null/single node (do nothing)
         if (head == null || head.getNext() == null) {
             this.head = head;
+            if (this.head != null) {
+                this.head.setPrev(null);
+            }
             return head;
         }
         // Recursive case: 
@@ -135,6 +140,7 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
             BNode<T> reversedTail = recReverseList(head.getNext());
             // Set the returned tail's next to current node
             reversedTail.setNext(head);
+            head.setPrev(reversedTail);
             // Set current node's next to null and return
             head.setNext(null);
             return head;
@@ -158,17 +164,24 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
                 // If current is larger than next
                 // swap pointers
                 if (curr.compareTo(next) > 0) {
+                    // Set next references
                     if (prev != null) prev.setNext(next);
                     curr.setNext(next.getNext());
                     next.setNext(curr);
+                    // Set prev references
+                    next.setPrev(prev);
+                    curr.setPrev(next);
+                    if (curr.getNext() != null) {
+                        curr.getNext().setPrev(curr);
+                    }
                     if (prev == null) this.head = next;
                     prev = next;
                 }
                 // Else proceed to next iteration
                 else {
-                    if (prev == null) this.head = curr;                    
+                    if (prev == null) this.head = curr;
                     prev = curr;
-                    curr = curr.getNext();                    
+                    curr = curr.getNext();
                 }
             }
         }
@@ -259,6 +272,7 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
                 tail = least;
             } else {
                 tail.setNext(least);
+                least.setPrev(tail);
                 tail = tail.getNext();
                 tail.setNext(null);
             }
@@ -309,7 +323,7 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
             iterator = next;
         }
     }
-    
+
     private void insertSorted(BNode<T> item) {
         BNode<T> iterator = this.head;
         // If list is empty or item is smaller than head
@@ -324,7 +338,11 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
             // Insert the node
             BNode<T> next = iterator.getNext();
             iterator.setNext(item);
+            item.setPrev(iterator);
             item.setNext(next);
+            if (next != null) {
+                next.setPrev(item);
+            }
         }
     }
 
@@ -376,7 +394,7 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
             }
             // Insert node
             BNode<T> next = iterator.getNext();
-            BNode<T> toInsert = new BNode<T>(item, next);
+            BNode<T> toInsert = new BNode<T>(item, iterator, next);
             iterator.setNext(toInsert);
             return true;
         } else {
@@ -394,6 +412,9 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
         } else {
             BNode<T> oldHead = this.head;
             this.head = this.head.getNext();
+            if (this.head != null) {
+                this.head.setPrev(null);
+            }
             return oldHead.getData();
         }
     }
@@ -416,6 +437,18 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
                     }
                     head1 = head1.getNext();
                     head2 = head2.getNext();
+                }
+
+                BNode<T> tail1 = this.tail;
+                BNode<T> tail2 = otherList.getTail();
+
+                // Check equality of all nodes
+                while (tail1 != null && tail2 != null) {
+                    if (!tail1.getData().equals(tail2.getData())) {
+                        return false;
+                    }
+                    tail1 = tail1.getPrev();
+                    tail2 = tail2.getPrev();
                 }
                 return true;
             }
