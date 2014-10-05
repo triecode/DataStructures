@@ -1,4 +1,4 @@
-package data.structure.utils;
+package data.structures.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

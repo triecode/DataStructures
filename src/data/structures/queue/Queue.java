@@ -1,4 +1,4 @@
-package data.structure.queue;
+package data.structures.queue;
 
 import lombok.NoArgsConstructor;
 import data.structures.list.LinkedList;

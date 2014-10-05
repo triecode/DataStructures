@@ -1,4 +1,4 @@
-package data.structure.utils;
+package data.structures.util;
 
 /**
  * Unary Node class: Has a single object reference ('next')

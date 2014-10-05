@@ -3,7 +3,7 @@ package data.structures.list;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import data.structure.utils.UNode;
+import data.structures.util.UNode;
 
 /**
  * LinkedList implementation

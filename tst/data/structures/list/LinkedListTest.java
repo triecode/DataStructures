@@ -1,26 +1,26 @@
-package data.structures.lists.test;
+package data.structures.list;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import data.structures.list.DoublyLinkedList;
+import data.structures.list.LinkedList;
 
 /**
- * Unit tests for doubly linked lists
+ * Unit tests for linked lists
  *
  * @author chetan89
  */
-public class DoublyLinkedListTest {
+public class LinkedListTest {
 
     @Test
     public void testAppendPrependList() {
-        DoublyLinkedList<Integer> appendList = new DoublyLinkedList<Integer>();
+        LinkedList<Integer> appendList = new LinkedList<Integer>();
         appendList.append(1);
         appendList.append(2);
         appendList.append(3);
         appendList.append(4);
 
-        DoublyLinkedList<Integer> prependList = new DoublyLinkedList<Integer>();
+        LinkedList<Integer> prependList = new LinkedList<Integer>();
         prependList.prepend(4);
         prependList.prepend(3);
         prependList.prepend(2);
@@ -28,26 +28,26 @@ public class DoublyLinkedListTest {
 
         Assert.assertTrue(appendList.equals(prependList));
     }
-
+    
     @Test
     public void testSortList() {
         Integer[] listOfIntegers = { 4, 5, 7, 6, 1, 2, 3, 8, 9 };
-        DoublyLinkedList<Integer> list = new DoublyLinkedList<Integer>(listOfIntegers);
+        LinkedList<Integer> list = new LinkedList<Integer>(listOfIntegers);
 
         Integer[] ascListOfIntegers = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        DoublyLinkedList<Integer> ascList = new DoublyLinkedList<Integer>(ascListOfIntegers);
+        LinkedList<Integer> ascList = new LinkedList<Integer>(ascListOfIntegers);
 
         // Test bubble sort
         list.bubbleSort();
         Assert.assertTrue(list.equals(ascList));
 
         // Reset list, test merge sort
-        list = new DoublyLinkedList<Integer>(listOfIntegers);
+        list = new LinkedList<Integer>(listOfIntegers);
         list.mergeSort();
         Assert.assertTrue(list.equals(ascList));
 
         // Reset list, test insertion sort
-        list = new DoublyLinkedList<Integer>(listOfIntegers);
+        list = new LinkedList<Integer>(listOfIntegers);
         list.insertionSort();
         Assert.assertTrue(list.equals(ascList));
     }
@@ -55,8 +55,8 @@ public class DoublyLinkedListTest {
     @Test
     public void testReverseList() {
         Integer[] listOfIntegers = { 4, 5, 7, 6, 1, 2, 3, 8, 9 };
-        DoublyLinkedList<Integer> list = new DoublyLinkedList<Integer>(listOfIntegers);
-        DoublyLinkedList<Integer> originalList = list.copyOfList();
+        LinkedList<Integer> list = new LinkedList<Integer>(listOfIntegers);
+        LinkedList<Integer> originalList = list.copyOfList();
 
         // Recursively reverse and test
         list.recReverseList();
@@ -71,7 +71,7 @@ public class DoublyLinkedListTest {
     @Test
     public void testGetNth() {
         Integer[] listOfIntegers = { 4, 5, 7, 6, 1, 2, 3, 8, 9 };
-        DoublyLinkedList<Integer> list = new DoublyLinkedList<Integer>(listOfIntegers);
+        LinkedList<Integer> list = new LinkedList<Integer>(listOfIntegers);
         // Test all elements of the array
         for (int i = 0; i < listOfIntegers.length; i++) {
             Assert.assertEquals(list.getNth(i), listOfIntegers[i]);
@@ -83,7 +83,7 @@ public class DoublyLinkedListTest {
     @Test
     public void testPop() {
         Integer[] listOfIntegers = { 4, 5, 7, 6, 1, 2, 3, 8, 9 };
-        DoublyLinkedList<Integer> list = new DoublyLinkedList<Integer>(listOfIntegers);
+        LinkedList<Integer> list = new LinkedList<Integer>(listOfIntegers);
         // Test all elements of the array
         for (int i = 0; i < listOfIntegers.length; i++) {
             Assert.assertEquals(list.pop(), listOfIntegers[i]);
@@ -95,7 +95,7 @@ public class DoublyLinkedListTest {
     @Test
     public void testInsertNth() {
         Integer[] listOfIntegers = { 4, 5, 7, 6, 1, 2, 3, 8, 9 };
-        DoublyLinkedList<Integer> list = new DoublyLinkedList<Integer>();
+        LinkedList<Integer> list = new LinkedList<Integer>();
         // Should not insert element 4 in 10th position
         Assert.assertEquals(list.insertNth(4, 10), false);
         // Insert all elements of the array

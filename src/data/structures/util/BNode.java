@@ -1,4 +1,4 @@
-package data.structure.utils;
+package data.structures.util;
 
 /**
  * Binary Node class: Has 2 object references ('prev', 'next') or ('left', 'right')

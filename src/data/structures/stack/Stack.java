@@ -1,4 +1,4 @@
-package data.structure.stack;
+package data.structures.stack;
 
 import lombok.NoArgsConstructor;
 import data.structures.list.LinkedList;

@@ -3,7 +3,7 @@ package data.structures.list;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import data.structure.utils.BNode;
+import data.structures.util.BNode;
 
 /**
  * Doubly LinkedList implementation

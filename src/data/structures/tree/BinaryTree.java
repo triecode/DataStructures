@@ -3,9 +3,9 @@ package data.structures.tree;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import data.structure.stack.Stack;
-import data.structure.utils.BNode;
 import data.structures.list.LinkedList;
+import data.structures.stack.Stack;
+import data.structures.util.BNode;
 
 @AllArgsConstructor
 public class BinaryTree<T extends Comparable<T>> implements Tree<T> {

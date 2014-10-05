@@ -1,11 +1,11 @@
-package data.structures.lists.test;
+package data.structures.tree;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import data.structure.utils.BNode;
 import data.structures.list.LinkedList;
 import data.structures.tree.BinaryTree;
+import data.structures.util.BNode;
 
 /**
  * Unit tests for binary trees
