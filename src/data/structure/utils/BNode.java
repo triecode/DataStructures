@@ -8,13 +8,13 @@ package data.structure.utils;
  * @param <T>
  *            Generic object
  */
-public class BNode<T extends Comparable<T>> extends Node<T> {
+public class BNode<T extends Comparable<T>> extends Node<T> implements Comparable<BNode<T>>, Cloneable{
 
-    private static int SIZE = 2;
-    private static int LEFT = 0;
-    private static int RIGHT = 1;
-    private static int PREV = 0;
-    private static int NEXT = 1;
+    private static final int SIZE = 2;
+    private static final int LEFT = 0;
+    private static final int RIGHT = 1;
+    private static final int PREV = 0;
+    private static final int NEXT = 1;
 
     /**
      * Constructor to setup the node
@@ -27,6 +27,19 @@ public class BNode<T extends Comparable<T>> extends Node<T> {
         setData(data);
         setPrev(prevOrLeft);
         setNext(nextOrRight);
+    }
+
+    /**
+     * Constructor to setup the node
+     * 
+     * @param data
+     * @param prevOrLeft
+     * @param nextOrRight
+     */
+    public BNode(T data) {
+        setData(data);
+        setPrev(null);
+        setNext(null);
     }
 
     /**
@@ -75,12 +88,30 @@ public class BNode<T extends Comparable<T>> extends Node<T> {
     }
 
     /**
-     * Sets the next node
+     * Sets the prev node
      * 
-     * @param next
+     * @param prev
      */
     public void setPrev(BNode<T> prev) {
         setNode(prev, PREV);
+    }
+
+    /**
+     * Sets the left node
+     * 
+     * @param left
+     */
+    public void setLeft(BNode<T> left) {
+        setNode(left, LEFT);
+    }
+
+    /**
+     * Sets the right node
+     * 
+     * @param right
+     */
+    public void setRight(BNode<T> right) {
+        setNode(right, RIGHT);
     }
 
     private BNode<T> getNode(int index) {
@@ -96,5 +127,15 @@ public class BNode<T extends Comparable<T>> extends Node<T> {
             setChildren(new Node[SIZE]);
         }
         getChildren()[index] = node;
+    }
+
+    @Override
+    public int compareTo(BNode<T> o) {
+        return this.getData().compareTo(o.getData());
+    }
+
+    @Override
+    public BNode<T> clone() {
+        return new BNode<T>(this.getData());
     }
 }

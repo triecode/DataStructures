@@ -3,7 +3,7 @@ package data.structures.lists.test;
 import org.junit.Assert;
 import org.junit.Test;
 
-import data.structures.lists.LinkedList;
+import data.structures.list.LinkedList;
 
 /**
  * Unit tests for linked lists

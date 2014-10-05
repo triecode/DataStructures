@@ -3,7 +3,7 @@ package data.structures.lists.test;
 import org.junit.Assert;
 import org.junit.Test;
 
-import data.structures.lists.DoublyLinkedList;
+import data.structures.list.DoublyLinkedList;
 
 /**
  * Unit tests for doubly linked lists
@@ -28,7 +28,7 @@ public class DoublyLinkedListTest {
 
         Assert.assertTrue(appendList.equals(prependList));
     }
-    
+
     @Test
     public void testSortList() {
         Integer[] listOfIntegers = { 4, 5, 7, 6, 1, 2, 3, 8, 9 };

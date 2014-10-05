@@ -7,7 +7,7 @@ package data.structure.utils;
  *
  * @param <T> Generic object
  */
-public class UNode<T extends Comparable<T>> extends Node<T> {
+public class UNode<T extends Comparable<T>> extends Node<T> implements Comparable<UNode<T>> {
 
     /**
      * Constructor to setup the node
@@ -40,5 +40,10 @@ public class UNode<T extends Comparable<T>> extends Node<T> {
         Node<T>[] children = new Node[1];
         children[0] = next;
         setChildren(children);
+    }
+
+    @Override
+    public int compareTo(UNode<T> o) {
+        return getData().compareTo(o.getData());
     }
 }

@@ -1,4 +1,4 @@
-package data.structures.lists;
+package data.structures.list;
 
 /**
  * List interface
@@ -7,7 +7,7 @@ package data.structures.lists;
  *
  * @param <T>
  */
-public interface List<T extends Comparable<T>> {
+public interface List<T> {
     /**
      * Method to append an item to a list
      * @param item
