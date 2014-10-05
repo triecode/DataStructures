@@ -34,6 +34,7 @@ public class BinaryTreeTest {
         Assert.assertTrue(inOrderList.equals(bTree.recursiveInOrder()));
 
         // Assert preorder (iterative, recursive)
+        Assert.assertTrue(preOrderList.equals(bTree.morrisPreOrder()));
         Assert.assertTrue(preOrderList.equals(bTree.iterativePreOrder()));
         Assert.assertTrue(preOrderList.equals(bTree.recursivePreOrder()));
 

@@ -76,7 +76,7 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
                 // Find predecessor and confirm threading
                 BNode<T> pred = inOrderPredecessor(curr);
                 // If the node is threaded
-                if (pred.getRight() != null && pred.getRight().equals(curr)) {
+                if (pred.getRight() != null) {
                     pred.setRight(null);                  // reset thread
                     inOrderList.append(curr.getData());   // print
                     curr = curr.getRight();               // proceed right
@@ -132,6 +132,32 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
         recInOrder(node.getRight(), inOrderList);
     }
 
+    public LinkedList<T> morrisPreOrder() {
+        BNode<T> curr = this.root;
+        LinkedList<T> preOrderList = new LinkedList<T>();
+        // Iterate through all nodes
+        while (curr != null) {
+            // If the current node has left child
+            if (curr.getLeft() != null) {
+                // Find predecessor and confirm threading
+                BNode<T> pred = inOrderPredecessor(curr);
+                // If the node is threaded
+                if (pred.getRight() != null) {
+                    pred.setRight(null);                  // reset thread
+                    curr = curr.getRight();               // proceed right
+                } else {
+                    pred.setRight(curr);                  // set threading
+                    preOrderList.append(curr.getData());  // print
+                    curr = curr.getLeft();                // proceed left
+                }
+            } else {
+                preOrderList.append(curr.getData());
+                curr = curr.getRight();
+            }
+        }
+        return preOrderList;
+    }
+
     public LinkedList<T> iterativePreOrder() {
         LinkedList<T> preOrderList = new LinkedList<T>();
         Stack<BNode<T>> stack = new Stack<BNode<T>>();
@@ -163,6 +189,32 @@ public class BinaryTree<T extends Comparable<T>> implements Tree<T> {
         preOrderList.append(node.getData());
         recPreOrder(node.getLeft(), preOrderList);
         recPreOrder(node.getRight(), preOrderList);
+    }
+
+    public LinkedList<T> morrisPostOrder() {
+        BNode<T> curr = this.root;
+        LinkedList<T> postOrderList = new LinkedList<T>();
+        // Iterate through all nodes
+        while (curr != null) {
+            // If the current node has left child
+            if (curr.getLeft() != null) {
+                // Find predecessor and confirm threading
+                BNode<T> pred = inOrderPredecessor(curr);
+                // If the node is threaded
+                if (pred.getRight() != null) {
+                    pred.setRight(null);                  // reset thread
+                    curr = curr.getRight();               // proceed right
+                } else {
+                    pred.setRight(curr);                  // set threading
+                    postOrderList.append(curr.getData());  // print
+                    curr = curr.getLeft();                // proceed left
+                }
+            } else {
+                postOrderList.append(curr.getData());
+                curr = curr.getRight();
+            }
+        }
+        return postOrderList;
     }
 
     public LinkedList<T> iterativePostOrder() {
