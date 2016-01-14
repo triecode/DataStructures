@@ -136,4 +136,9 @@ public class BNode<T extends Comparable<T>> extends Node<T> implements Comparabl
     public BNode<T> clone() {
         return new BNode<T>(this.getData());
     }
+
+    @Override
+    public String toString() {
+        return this.getData().toString();
+    }
 }

@@ -115,11 +115,11 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
      * Method to reverse the list recursively
      */
     public void recReverseList() {
-        this.tail = recReverseList(this.head);
+        recReverseList(this.head);
     }
-    
+
     /**
-     * This method reverses the linked list 
+     * This method reverses the linked list
      * and returns the tail.
      *
      * @param head Head of the list to be reversed
@@ -134,16 +134,21 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
             }
             return head;
         }
-        // Recursive case: 
+        // Recursive case:
         else {
-            // Reverse the list starting from next node
-            BNode<T> reversedTail = recReverseList(head.getNext());
-            // Set the returned tail's next to current node
-            reversedTail.setNext(head);
-            head.setPrev(reversedTail);
-            // Set current node's next to null and return
-            head.setNext(null);
-            return head;
+            BNode<T> first = head;
+            BNode<T> rest = head.getNext();
+
+            // Recursively reverse the rest
+            BNode<T> newHead = recReverseList(rest);
+
+            // Add first to tail; update tail
+            this.tail.setNext(first);
+            first.setNext(null);
+            first.setPrev(this.tail);
+            this.tail = first;
+
+            return newHead;
         }
     }
 
@@ -244,27 +249,27 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
     private BNode<T> merge(BNode<T> sorted1, BNode<T> sorted2) {
         BNode<T> head = null;
         BNode<T> tail = null;
+        BNode<T> least;
+
         // While there are node to be processed
         while (sorted1 != null || sorted2 != null) {
-            BNode<T> least = null;
             // Find the least node
-            if (sorted1 != null && sorted2 == null) {
-                least = sorted1;
-                sorted1 = sorted1.getNext();
+            if (sorted1 == null || sorted2 == null) {
+                least = (sorted2 == null) ? sorted1 : sorted2;
+            } else {
+                least = (sorted1.compareTo(sorted2) <= 0) ? sorted1 : sorted2;
             }
-            else if (sorted1 == null && sorted2 != null) {
-                least = sorted2;
+
+            // Increment the sorted list from which least node was extracted
+            if (least == sorted1) {
+                sorted1 = sorted1.getNext();
+            } else {
                 sorted2 = sorted2.getNext();
             }
-            else {
-                if (sorted1.compareTo(sorted2) <= 0) {
-                    least = sorted1;
-                    sorted1 = sorted1.getNext();
-                } else {
-                    least = sorted2;
-                    sorted2 = sorted2.getNext();
-                }
-            }
+
+            // Clear the prev and next of least node
+            least.setPrev(null);
+            least.setNext(null);
 
             // Append the least node to the merged list
             if (head == null && tail == null) {
@@ -274,7 +279,6 @@ public class DoublyLinkedList<T extends Comparable<T>> implements List<T> {
                 tail.setNext(least);
                 least.setPrev(tail);
                 tail = tail.getNext();
-                tail.setNext(null);
             }
         }
         return head;
