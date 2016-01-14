@@ -2,3 +2,6 @@
 /lombok.jar
 /.project
 /.classpath
+*.iml
+/out
+/.idea
