@@ -33,8 +33,6 @@ public class BNode<T extends Comparable<T>> extends Node<T> implements Comparabl
      * Constructor to setup the node
      * 
      * @param data
-     * @param prevOrLeft
-     * @param nextOrRight
      */
     public BNode(T data) {
         setData(data);
